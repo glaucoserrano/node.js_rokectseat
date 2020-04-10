@@ -19,16 +19,21 @@ function writeFile(cb){
 http.createServer((req,res) => {
     const { name, url, del} =  URL.parse(req.url,true).query
 
+    res.writeHead(200,{
+        'Access-Control-Allow-Origin': '*'
+    })
+
     //all resources
     if(!name ||!url)
         return res.end(JSON.stringify(data))
-
+    //delete
     if(del){
         data.urls = data.urls.filter(item => String(item.url) !== String(url))
 
         return writeFile((message)=>res.end(message)) 
     }
 
+    //create
     data.urls.push({name,url})
     return writeFile((message)=>res.end(message))
 
