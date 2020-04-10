@@ -3,6 +3,13 @@ const input = document.querySelector("input")
 const form = document.querySelector('form')
 
 
+async function load(){
+    const res = await fetch("http://localhost:3000/").then((data) => data.json())
+
+    res.urls.map(({name,url}) => addElement({name,url}))
+}
+load()
+
 function addElement({ name, url }) {
     const li = document.createElement('li')
     const a = document.createElement("a")
@@ -41,7 +48,9 @@ form.addEventListener("submit", (event) => {
     if (!/^http/.test(url)) 
         return alert("Digite a url da maneira correta")
 
-    addElement({ name, url })
+    //addElement({ name, url })
+
+    
 
     input.value = ""
 })
