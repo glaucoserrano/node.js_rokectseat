@@ -10,6 +10,20 @@ async function load(){
 }
 load()
 
+async function create(name,url) {
+    const req = await fetch(`http://localhost:3000/?name=${name}&url=${url}`).then((data) => data.json())
+
+    if(req.message==='ok')
+        location.reload()
+}
+
+async function del(name,url){
+    const req = await fetch(`http://localhost:3000/?name=${name}&url=${url}&del=1`).then((data) => data.json())
+
+    if(req.message==='ok')
+        location.reload()
+}
+
 function addElement({ name, url }) {
     const li = document.createElement('li')
     const a = document.createElement("a")
@@ -20,7 +34,7 @@ function addElement({ name, url }) {
     a.target = "_blank"
 
     trash.innerHTML = "x"
-    trash.onclick = () => removeElement(trash)
+    trash.onclick = () => del(name,url)
 
     li.append(a)
     li.append(trash)
@@ -48,9 +62,8 @@ form.addEventListener("submit", (event) => {
     if (!/^http/.test(url)) 
         return alert("Digite a url da maneira correta")
 
-    //addElement({ name, url })
-
     
+    create(name,url)
 
     input.value = ""
 })
